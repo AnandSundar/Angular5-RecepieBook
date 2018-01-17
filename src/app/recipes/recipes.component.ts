@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { log } from 'util';
+import { Component, OnInit} from '@angular/core';
 import { RecipeService } from './recipe.service';
+import { Recipe } from './recipe.model';
 
 @Component({
   selector: 'app-recipes',
@@ -9,16 +9,17 @@ import { RecipeService } from './recipe.service';
   providers: [RecipeService]
 })
 export class RecipesComponent implements OnInit {
-  @Input() recipeElFull = '';
-  constructor() { }
+
+  selectedRecipe: Recipe;
+
+  constructor(private recipeService: RecipeService) { }
 
   ngOnInit() {
-  }
-
-  onClickRecipeElFull(event) {
-    // console.log(event);
-    this.recipeElFull = event;
-
+    this.recipeService.recipeSelected.subscribe(
+      (recipe: Recipe) => {
+        this.selectedRecipe = recipe;
+      }
+    );
   }
 
 }
